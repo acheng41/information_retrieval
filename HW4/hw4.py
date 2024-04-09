@@ -23,15 +23,9 @@ def parse_links(root, html):
 
 
 def parse_links_sorted(root, html):
-    # DONE: implement
-
-    # Convert to a list
-    links = list(parse_links(root, html))  
-
-    # Sort links alphabetically based on URLs
-    sorted_links = sorted(links, key=lambda x: x[0])
+    # TODO: implement
     
-    return sorted_links
+    return
 
 
 def get_links(url):
@@ -74,9 +68,17 @@ def crawl(root, wanted_content=[], within_domain=True):
 
     while not queue.empty():
         url = queue.get()
+        if url in visited:
+            continue
         try:
             req = request.urlopen(url)
             html = req.read()
+
+            content_type = req.headers.get('Content-Type')
+            if content_type is None:
+                continue # content type is not specified
+            if not any(content_type == content for content in wanted_content):
+                continue # the content type does not match any of the content listed in wanted_content
 
             visited.append(url)
             visitlog.debug(url)
@@ -86,12 +88,31 @@ def crawl(root, wanted_content=[], within_domain=True):
                 extractlog.debug(ex)
 
             for link, title in parse_links(url, html):
+                if within_domain:
+                    if parse.urlparse(root).netloc == parse.urlparse(link).netloc:
+                        continue # link that is being parsed is not in the domain that we're specifying
+                if is_self_referencing(root, link, url):
+                    continue # self-referencing link
                 queue.put(link)
 
         except Exception as e:
             print(e, url)
 
     return visited, extracted
+
+def is_self_referencing(root, link, url):
+    if link == root or link == url:
+        return True
+    
+    root_parsed = parse.urlparse(root)
+    link_parsed = parse.urlparse(link)
+
+    # Check if both URLs have the same netloc and path
+    if root_parsed.netloc == link_parsed.netloc and root_parsed.path == link_parsed.path:
+        return True
+    
+    # not self referencing
+    return False
 
 
 def extract_information(address, html):
@@ -100,12 +121,15 @@ def extract_information(address, html):
 
     # DONE: implement
     results = []
+
+    # don't need dashes maybe? optional?
     for match in re.findall('\d\d\d-\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
 
     for match in re.findall('\S+@\S+', str(html)):
         results.append((address, 'EMAIL', match))
 
+    # what if city is multiple words? period?
     for match in re.findall('[a-zA-Z]+,\s[a-zA-Z]+\.?\s\d\d\d\d\d', str(html)):
         results.append((address, 'ADDRESS', match))
 
@@ -132,5 +156,17 @@ def main():
     writelines('extracted.txt', extracted)
 
 
+
 if __name__ == '__main__':
     main()
+
+
+    # links = get_links("https://www.cs.jhu.edu")
+    # print("ALL\n")
+    # for link in links:
+    #     print(str(link))
+    
+    # print("\nNONLOCAL\n")
+    # links = get_nonlocal_links("https://www.cs.jhu.edu")
+    # for link in links:
+    #     print(str(link))
