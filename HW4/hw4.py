@@ -41,12 +41,12 @@ def get_nonlocal_links(url):
     # DONE: implement
     links = get_links(url)
     base_domain = parse.urlparse(url).netloc
-    print("Base: Domain")
-    print(base_domain)
+    # print("Base: Domain")
+    # print(base_domain)
     base_path = parse.urlparse(url).path
-    print("Base: Path")
+    # print("Base: Path")
 
-    print(base_path)
+    # print(base_path)
 
     filtered = []
 
@@ -76,27 +76,27 @@ def crawl(root, wanted_content=[], within_domain=True):
     visited = []
     extracted = []
 
-    while not queue.empty() and len(visited) <8:
-        print("Visited")
-        print(visited)
+    while not queue.empty() and len(visited) <3:
+        # print("Visited")
+        # print(visited)
         url = queue.get()
         if url in visited:
             continue
-        print("pass")
+        # print("pass")
         try:
             req = request.urlopen(url)
             html = req.read()
 
             visited.append(url)
             visitlog.debug(url)
-            print("appended")
-            print(visited)
+            # print("appended")
+            # print(visited)
 
             for ex in extract_information(url, html):
                 extracted.append(ex)
                 extractlog.debug(ex)
             
-            print("links")
+            # print("links")
             for link, title in parse_links(url, html):
                 req_link = request.urlopen(link)
                 content_type = req_link.headers['Content-Type']
@@ -117,9 +117,9 @@ def crawl(root, wanted_content=[], within_domain=True):
 
         except Exception as e:
             print(e, url)
-    print("FINAL VISITED AND EXTRACTED:")
-    print(visited)
-    print(extracted)
+    # print("FINAL VISITED AND EXTRACTED:")
+    # print(visited)
+    # print(extracted)
     return visited, extracted
 
 def is_self_referencing(root, url):
@@ -148,12 +148,13 @@ def extract_information(address, html):
     for match in re.findall('\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
 
-    for match in re.findall('\S+@\S+.\S+', str(html)):
+    for match in re.findall('[\w.+-]+@[\w-]+\.[\w.-]+', str(html)):
         results.append((address, 'EMAIL', match))
 
     # what if city is multiple words? period?
     for match in re.findall('[a-zA-Z]+,\s[a-zA-Z]+\.?\s\d\d\d\d\d', str(html)):
         results.append((address, 'ADDRESS', match))
+        print(match)
 
     return results
 
