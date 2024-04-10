@@ -50,12 +50,10 @@ def get_nonlocal_links(url):
 
     filtered = []
 
+    # Get rid of duplicates?
+
     for link, title in links:
         parsed_link = parse.urlparse(link)
-        # print("Parsed: Domain")
-        # print(parsed_link.netloc)
-        # print("Parsed: Path")
-        # print(parsed_link.path)
         parsed_path = parsed_link.path
         parsed_domain = parsed_link.netloc
         if parsed_domain != base_domain or parsed_path != base_path:
@@ -82,6 +80,8 @@ def crawl(root, wanted_content=[], within_domain=True):
         url = queue.get()
         if url in visited:
             continue
+        if is_self_referencing(root, url):
+            continue # self-referencing link
         try:
             req = request.urlopen(url)
             html = req.read()
@@ -100,24 +100,23 @@ def crawl(root, wanted_content=[], within_domain=True):
                 extractlog.debug(ex)
 
             for link, title in parse_links(url, html):
+                if is_self_referencing(link, url):
+                    continue
                 if within_domain:
                     if parse.urlparse(root).netloc == parse.urlparse(link).netloc:
-                        continue # link that is being parsed is not in the domain that we're specifying
-                if is_self_referencing(root, link, url):
-                    continue # self-referencing link
-                queue.put(link)
+                        queue.put(link) # link that is being parsed is not in the domain that we're specifying
+                else:
+                    queue.put(link)
 
         except Exception as e:
             print(e, url)
 
     return visited, extracted
 
-def is_self_referencing(root, link, url):
-    if link == root or link == url:
-        return True
+def is_self_referencing(root, url):
     
     root_parsed = parse.urlparse(root)
-    link_parsed = parse.urlparse(link)
+    link_parsed = parse.urlparse(url)
 
     # Check if both URLs have the same netloc and path
     if root_parsed.netloc == link_parsed.netloc and root_parsed.path == link_parsed.path:

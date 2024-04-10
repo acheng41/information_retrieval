@@ -4,8 +4,6 @@
 ('https://www.cs.jhu.edu/academic-programs/undergraduate-studies/undergraduate-academics/current-undergraduate-students/', 'Resources for Undergrads')
 ('https://www.cs.jhu.edu/academic-programs/graduate-studies/current-graduate-students/', 'Resources for Graduate Students')
 ('https://imagine.jhu.edu/hire-at-hopkins/', '')
-('https://www.cs.jhu.edu', '')
-('https://www.cs.jhu.edu', 'Department of Computer Science')
 ('https://engineering.jhu.edu/request-information/', '')
 ('https://engineering.jhu.edu/admissions/', '')
 ('https://makeagift.jhu.edu/form/eng', '')
