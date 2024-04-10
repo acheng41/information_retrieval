@@ -41,14 +41,26 @@ def get_nonlocal_links(url):
     # DONE: implement
     links = get_links(url)
     base_domain = parse.urlparse(url).netloc
+    print("Base: Domain")
+    print(base_domain)
     base_path = parse.urlparse(url).path
+    print("Base: Path")
+
+    print(base_path)
 
     filtered = []
 
     for link, title in links:
         parsed_link = parse.urlparse(link)
-        if parsed_link.netloc != base_domain and parsed_link.path != base_path:
+        # print("Parsed: Domain")
+        # print(parsed_link.netloc)
+        # print("Parsed: Path")
+        # print(parsed_link.path)
+        parsed_path = parsed_link.path
+        parsed_domain = parsed_link.netloc
+        if parsed_domain != base_domain or parsed_path != base_path:
             filtered.append((link, title))
+
 
     return filtered
 
