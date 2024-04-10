@@ -76,30 +76,37 @@ def crawl(root, wanted_content=[], within_domain=True):
     visited = []
     extracted = []
 
-    while not queue.empty():
+    while not queue.empty() and len(visited) <8:
+        print("Visited")
+        print(visited)
         url = queue.get()
         if url in visited:
             continue
-        if is_self_referencing(root, url):
-            continue # self-referencing link
+        print("pass")
         try:
             req = request.urlopen(url)
             html = req.read()
 
-            content_type = req.headers.get('Content-Type')
-            if content_type is None:
-                continue # content type is not specified
-            if not any(content_type == content for content in wanted_content):
-                continue # the content type does not match any of the content listed in wanted_content
-
             visited.append(url)
             visitlog.debug(url)
+            print("appended")
+            print(visited)
 
             for ex in extract_information(url, html):
                 extracted.append(ex)
                 extractlog.debug(ex)
-
+            
+            print("links")
             for link, title in parse_links(url, html):
+                req_link = request.urlopen(link)
+                content_type = req_link.headers['Content-Type']
+                print(content_type)
+                # if content_type is None:
+                #     continue # content type is not specified
+                if not any(content in content_type for content in wanted_content):
+                    continue # the content type does not match any of the content listed in wanted_content
+
+                
                 if is_self_referencing(link, url):
                     continue
                 if within_domain:
@@ -110,7 +117,9 @@ def crawl(root, wanted_content=[], within_domain=True):
 
         except Exception as e:
             print(e, url)
-
+    print("FINAL VISITED AND EXTRACTED:")
+    print(visited)
+    print(extracted)
     return visited, extracted
 
 def is_self_referencing(root, url):
@@ -136,8 +145,10 @@ def extract_information(address, html):
     # don't need dashes maybe? optional?
     for match in re.findall('\d\d\d-\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
+    for match in re.findall('\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
+        results.append((address, 'PHONE', match))
 
-    for match in re.findall('\S+@\S+', str(html)):
+    for match in re.findall('\S+@\S+.\S+', str(html)):
         results.append((address, 'EMAIL', match))
 
     # what if city is multiple words? period?
@@ -162,7 +173,9 @@ def main():
     nonlocal_links = get_nonlocal_links(site)
     writelines('nonlocal.txt', nonlocal_links)
 
-    visited, extracted = crawl(site)
+    visited, extracted = crawl(site,['text/html'])
+    # visited, extracted = crawl(site)
+
     writelines('visited.txt', visited)
     writelines('extracted.txt', extracted)
 

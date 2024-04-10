@@ -1,0 +1,36 @@
+DEBUG:visited:http://www.cs.jhu.edu/~yarowsky/cs466.html
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'PHONE', '(410) 516-5372')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'EMAIL', 'yarowsky@jhu.edu\\n<BR> Office:')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'ADDRESS', 'Baltimore, MD 21218')
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/466.officehours.html
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', '(arya@jhu.edu)\\n')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', '(czhan105@jhu.edu)\\n')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', '(smei5@jhu.edu)\\n')
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/cs466slides/
+DEBUG:visited:http://www.cs.jhu.edu
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'href="mailto:contactus@cs.jhu.edu" itemprop="email"><span')
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu</a>\\n\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t</div>\\n\\t</div>\\n</div>\\n<nav class="js-nav')
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/cs466slides/4slides/http.example/basic.example
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/cs466slides/4slides/http.example/basic.example', 'EMAIL', 'yarowsky@cs.jhu.edu\\nUser-Agent:')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/cs466slides/4slides/http.example/basic.example', 'EMAIL', 'HREF="mailto:brill@cs.jhu.edu">brill@cs.jhu.edu</A></B>\\n \\n<P>\\n<P>\\n<hr>\\n<h2>')
+DEBUG:visited:https://www.cs.jhu.edu/it-support/
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-6281')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-6259')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-5249')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-4898')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'title="support@cs.jhu.edu" href="mailto:support@cs.jhu.edu"')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'rel="noopener">support@cs.jhu.edu</a>.</p>\\n<p>We are')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:steve410@cs.jhu.edu">steve410@cs.jhu.edu</a></span><br />\\n<span><a')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:support@cs.jhu.edu">support@cs.jhu.edu</a> (for')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:steve@cs.jhu.edu">steve@cs.jhu.edu</a></span><br />\\n<span><a')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:support@cs.jhu.edu">support@cs.jhu.edu</a> (for')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:pip@cs.jhu.edu">pip@cs.jhu.edu</a></span><br />\\n<span><a')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:support@cs.jhu.edu">support@cs.jhu.edu</a> (for')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:cvenghaus@jhu.edu">cvenghaus@jhu.edu</a> (for')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:support@cs.jhu.edu">support@cs.jhu.edu</a> (for')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'href="mailto:contactus@cs.jhu.edu" itemprop="email"><span')
+DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'contactus@cs.jhu.edu</a>\\n\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t</div>\\n\\t</div>\\n</div>\\n<nav class="js-nav')
+DEBUG:visited:https://www.cs.jhu.edu/search/
+DEBUG:extracted:('https://www.cs.jhu.edu/search/', 'EMAIL', 'href="mailto:contactus@cs.jhu.edu" itemprop="email"><span')
+DEBUG:extracted:('https://www.cs.jhu.edu/search/', 'EMAIL', 'contactus@cs.jhu.edu</a>\\n\\t\\t\\t</div>\\n\\t\\t\\t\\t\\t</div>\\n\\t</div>\\n</div>\\n<nav class="js-nav')
