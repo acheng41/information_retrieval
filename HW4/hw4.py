@@ -76,7 +76,7 @@ def crawl(root, wanted_content=[], within_domain=True):
     visited = []
     extracted = []
 
-    while not queue.empty() and len(visited) <3:
+    while not queue.empty() and len(visited) < 5:
         # print("Visited")
         # print(visited)
         url = queue.get()
@@ -141,20 +141,23 @@ def extract_information(address, html):
 
     # DONE: implement
     results = []
-
     # don't need dashes maybe? optional?
-    for match in re.findall('\d\d\d-\d\d\d-\d\d\d\d', str(html)):
+    for match in re.findall(r'\d\d\d-\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
-    for match in re.findall('\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
+    for match in re.findall(r'\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
 
-    for match in re.findall('[\w.+-]+@[\w-]+\.[\w.-]+', str(html)):
+    # for match in re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', str(html)):
+    #     results.append((address, 'EMAIL', match))
+
+    for match in re.findall(r'(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)', str(html)):
         results.append((address, 'EMAIL', match))
+    
 
-    # what if city is multiple words? period?
-    for match in re.findall('[a-zA-Z]+,\s[a-zA-Z]+\.?\s\d\d\d\d\d', str(html)):
+    for match in re.findall(r'([A-Z][a-zA-Z\s]+),\s*([A-Z][a-zA-Z\s.]+)\s+(\d{5})', str(html)):
         results.append((address, 'ADDRESS', match))
         print(match)
+
 
     return results
 

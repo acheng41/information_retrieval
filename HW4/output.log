@@ -1,32 +1,13 @@
-DEBUG:visited:http://www.cs.jhu.edu/people
-DEBUG:extracted:('http://www.cs.jhu.edu/people', 'EMAIL', 'contactus@cs.jhu.edu')
-DEBUG:extracted:('http://www.cs.jhu.edu/people', 'EMAIL', 'contactus@cs.jhu.edu')
-DEBUG:visited:https://www.cs.jhu.edu/it-support/
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-6281')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-6259')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-5249')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'PHONE', '410-516-4898')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'steve410@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'steve410@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'steve@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'steve@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'pip@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'pip@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'cvenghaus@jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'cvenghaus@jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'support@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'contactus@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/it-support/', 'EMAIL', 'contactus@cs.jhu.edu')
-DEBUG:visited:https://www.cs.jhu.edu/search/
-DEBUG:extracted:('https://www.cs.jhu.edu/search/', 'EMAIL', 'contactus@cs.jhu.edu')
-DEBUG:extracted:('https://www.cs.jhu.edu/search/', 'EMAIL', 'contactus@cs.jhu.edu')
+DEBUG:visited:http://www.cs.jhu.edu/~yarowsky/cs466.html
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'PHONE', '(410) 516-5372')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'EMAIL', 'yarowsky@jhu.edu')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/', 'ADDRESS', ('Baltimore', 'MD', '21218'))
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/466.officehours.html
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', 'arya@jhu.edu')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', 'czhan105@jhu.edu')
+DEBUG:extracted:('https://www.cs.jhu.edu/~yarowsky/466.officehours.html', 'EMAIL', 'smei5@jhu.edu')
+DEBUG:visited:https://www.cs.jhu.edu/~yarowsky/cs466slides/
+DEBUG:visited:http://www.cs.jhu.edu
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')

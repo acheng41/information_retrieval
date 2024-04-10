@@ -1,3 +1,5 @@
-http://www.cs.jhu.edu/people
-https://www.cs.jhu.edu/it-support/
-https://www.cs.jhu.edu/search/
+http://www.cs.jhu.edu/~yarowsky/cs466.html
+https://www.cs.jhu.edu/~yarowsky/
+https://www.cs.jhu.edu/~yarowsky/466.officehours.html
+https://www.cs.jhu.edu/~yarowsky/cs466slides/
+http://www.cs.jhu.edu
