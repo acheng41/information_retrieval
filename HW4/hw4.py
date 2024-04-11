@@ -24,13 +24,24 @@ def parse_links(root, html):
 
 def parse_links_sorted(root, html):
     # TODO: implement
-    
-    return
+    links = list(parse_links(root, html))
+    return relevance(links)
 
+def relevance(links): 
+    #define most relevant links by length of title and then length of the link
+    #usually, descriptive titles can be helpful for finding information
+    #usually, longer links can indicate paths that enter subpages to more specific information
+    links.sort(key = lambda x: len(x[0]), reverse  = True) 
+    links.sort(key = lambda x: len(x[1]), reverse = True)
+    return links
 
 def get_links(url):
     res = request.urlopen(url)
     return list(parse_links(url, res.read()))
+
+# def get_links_sorted(url):
+#     res = request.urlopen(url)
+#     return parse_links_sorted(url, res.read())
 
 
 def get_nonlocal_links(url):
@@ -41,16 +52,12 @@ def get_nonlocal_links(url):
     # DONE: implement
     links = get_links(url)
     base_domain = parse.urlparse(url).netloc
-    # print("Base: Domain")
-    # print(base_domain)
-    base_path = parse.urlparse(url).path
-    # print("Base: Path")
 
-    # print(base_path)
+    base_path = parse.urlparse(url).path
+
 
     filtered = []
 
-    # Get rid of duplicates?
 
     for link, title in links:
         parsed_link = parse.urlparse(link)
@@ -77,32 +84,26 @@ def crawl(root, wanted_content=[], within_domain=True):
     extracted = []
 
     while not queue.empty() and len(visited) < 5:
-        # print("Visited")
-        # print(visited)
+  
         url = queue.get()
         if url in visited:
             continue
-        # print("pass")
         try:
             req = request.urlopen(url)
-            html = req.read()
+            html = req.read().decode('utf-8', 'ignore')
 
             visited.append(url)
             visitlog.debug(url)
-            # print("appended")
-            # print(visited)
+
 
             for ex in extract_information(url, html):
                 extracted.append(ex)
                 extractlog.debug(ex)
             
-            # print("links")
             for link, title in parse_links(url, html):
                 req_link = request.urlopen(link)
                 content_type = req_link.headers['Content-Type']
-                print(content_type)
-                # if content_type is None:
-                #     continue # content type is not specified
+     
                 if not any(content in content_type for content in wanted_content):
                     continue # the content type does not match any of the content listed in wanted_content
 
@@ -117,9 +118,7 @@ def crawl(root, wanted_content=[], within_domain=True):
 
         except Exception as e:
             print(e, url)
-    # print("FINAL VISITED AND EXTRACTED:")
-    # print(visited)
-    # print(extracted)
+
     return visited, extracted
 
 def is_self_referencing(root, url):
@@ -138,26 +137,21 @@ def is_self_referencing(root, url):
 def extract_information(address, html):
     '''Extract contact information from html, returning a list of (url, category, content) pairs,
     where category is one of PHONE, ADDRESS, EMAIL'''
-
+    
     # DONE: implement
     results = []
-    # don't need dashes maybe? optional?
+
     for match in re.findall(r'\d\d\d-\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
     for match in re.findall(r'\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
         results.append((address, 'PHONE', match))
 
-    # for match in re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', str(html)):
-    #     results.append((address, 'EMAIL', match))
-
     for match in re.findall(r'(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)', str(html)):
         results.append((address, 'EMAIL', match))
     
-
     for match in re.findall(r'([A-Z][a-zA-Z\s]+),\s*([A-Z][a-zA-Z\s.]+)\s+(\d{5})', str(html)):
         results.append((address, 'ADDRESS', match))
         print(match)
-
 
     return results
 
@@ -174,11 +168,13 @@ def main():
     links = get_links(site)
     writelines('links.txt', links)
 
+    # links2 = get_links_sorted(site)
+    # writelines('links2.txt', links2)
+
     nonlocal_links = get_nonlocal_links(site)
     writelines('nonlocal.txt', nonlocal_links)
 
     visited, extracted = crawl(site,['text/html'])
-    # visited, extracted = crawl(site)
 
     writelines('visited.txt', visited)
     writelines('extracted.txt', extracted)
@@ -187,14 +183,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-    # links = get_links("https://www.cs.jhu.edu")
-    # print("ALL\n")
-    # for link in links:
-    #     print(str(link))
-    
-    # print("\nNONLOCAL\n")
-    # links = get_nonlocal_links("https://www.cs.jhu.edu")
-    # for link in links:
-    #     print(str(link))
