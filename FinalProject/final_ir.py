@@ -94,7 +94,7 @@ def crawl(root, wanted_content=[], within_domain=True):
     visited = []
     extracted = []
 
-    while not queue.empty():
+    while not queue.empty() and len(visited) < 3:
         url = queue.get()
         if url in visited: 
             continue #do not visit duplicates
@@ -106,11 +106,12 @@ def crawl(root, wanted_content=[], within_domain=True):
             visitlog.debug(url)
 
             for ex in extract_information(url, html):
+                print(ex)
                 extracted.append(ex)
                 extractlog.debug(ex)
             
-            # for link, title in parse_links(url, html):  #the regular crawler          
-            for link, title in parse_links_sorted(url, html): #custom link relevance sorting
+            for link, title in parse_links(url, html):  #the regular crawler          
+            # for link, title in parse_links_sorted(url, html): #custom link relevance sorting
                 # print(link)
                 req_link = request.urlopen(link)
                 content_type = req_link.headers['Content-Type']
@@ -154,15 +155,20 @@ def extract_information(address, html):
     # TODO: implement
     results = []
 
-    #Search for Price
+    # #TODO:: Search for Price
+    # price_pattern =  r'\$\d+(\.\d+)?'
+    # for match in re.findall(price_pattern, str(html)):
+    #     results.append((address, 'PRICE', match))
    
-    #Search for Travel Time
-    for match in re.findall(r'(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)', str(html)):
-        results.append((address, 'EMAIL', match))
+    #TODO: Search for Travel Time
+    time_pattern =  r'\d+h \d+m'
+    for match in re.findall(time_pattern, str(html)):
+        results.append((address, 'DURATION', match))
     
-    #Search for Departure/ Arrival Time
-    for match in re.findall(r'([A-Z][a-zA-Z\s]+),\s*([A-Z][a-zA-Z\s.]+)\s+(\d{5})', str(html)):
-        results.append((address, 'ADDRESS', match))
+    #TODO: Search for Departure/ Arrival Time
+    dept_arriv_pattern = r'^\d{2}:\d{2} (?:AM|PM)$'
+    for match in re.findall(dept_arriv_pattern, str(html)):
+        results.append((address, 'DEPT|ARR', match))
         print(match)
 
 
@@ -172,6 +178,9 @@ def extract_information(address, html):
 #TODO: Helper
 #TODO: function to determine which time is arrival and which is departure
 #TODO: Create sorting function
+
+#TODO: calculate the gas prices
+#TODO: impmplemetn function to add time to plane, car rental, etc. 
 
 
 
