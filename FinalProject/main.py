@@ -22,6 +22,15 @@ if __name__ == '__main__':
         pattern = r'^\d{2}:\d{2} (?:AM|PM)$'
         while re.match(pattern, time) is None:
             time = input("You must enter time of the format 00:00 AM/PM:\n")
+        
+        rank = input("How do you want results to be ordered? Please say cheapest, fastest, or recommended.\n")
+        while rank.lower() != "cheapest" and rank.lower() != "fastest" and rank.lower() != "recommended":
+            rank = input("You must input either cheapest, fastest, or recommended.\n")
+
+        mode = input("Do you have a preferred mode of transportation? Please say plane, bus, train, car, or none.\n")
+        while mode.lower() != "plane" and mode.lower() != "bus" and mode.lower() != "train" and mode.lower() != "car" and mode.lower() != "none":
+            mode = input("You must input plane, bus, train, car, or none.\n")
+
 
         run_query(date, time, destination)
 
