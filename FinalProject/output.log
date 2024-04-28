@@ -1,0 +1,3 @@
+DEBUG:visited:http://www.cs.jhu.edu
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')
+DEBUG:extracted:('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')

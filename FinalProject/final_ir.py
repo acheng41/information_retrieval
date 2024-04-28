@@ -111,7 +111,7 @@ def crawl(root, wanted_content=[], within_domain=True):
             
             # for link, title in parse_links(url, html):  #the regular crawler          
             for link, title in parse_links_sorted(url, html): #custom link relevance sorting
-                print(link)
+                # print(link)
                 req_link = request.urlopen(link)
                 content_type = req_link.headers['Content-Type']
      
@@ -127,7 +127,7 @@ def crawl(root, wanted_content=[], within_domain=True):
                 else:
                     queue.put(link)
 
-                print(queue.__sizeof__())
+                # print(queue.__sizeof__())
 
         except Exception as e:
             print(e, url)
@@ -151,25 +151,28 @@ def extract_information(address, html):
     '''Extract contact information from html, returning a list of (url, category, content) pairs,
     where category is one of PHONE, ADDRESS, EMAIL'''
     
-    # DONE: implement
+    # TODO: implement
     results = []
 
-    #Search for Phone Numbers
-    for match in re.findall(r'\d\d\d-\d\d\d-\d\d\d\d', str(html)):
-        results.append((address, 'PHONE', match))
-    for match in re.findall(r'\(\d\d\d\)\s?\d\d\d-\d\d\d\d', str(html)):
-        results.append((address, 'PHONE', match))
-
-    #search for emails
+    #Search for Price
+   
+    #Search for Travel Time
     for match in re.findall(r'(\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)', str(html)):
         results.append((address, 'EMAIL', match))
     
-    #search for addresses
+    #Search for Departure/ Arrival Time
     for match in re.findall(r'([A-Z][a-zA-Z\s]+),\s*([A-Z][a-zA-Z\s.]+)\s+(\d{5})', str(html)):
         results.append((address, 'ADDRESS', match))
         print(match)
 
+
+
     return results
+
+#TODO: Helper
+#TODO: function to determine which time is arrival and which is departure
+#TODO: Create sorting function
+
 
 
 def writelines(filename, data):
@@ -209,3 +212,5 @@ def run_query(date, time, destination):
     return
 
 
+if __name__ == '__main__':
+    main()
