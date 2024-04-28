@@ -198,5 +198,14 @@ def main():
     writelines('extracted.txt', extracted)
 
 
-if __name__ == '__main__':
-    main()
+def run_query(date, time, destination):
+    if destination.upper() == "BWI":
+        location = "Baltimore"
+    else:
+        location = "New York"
+    print("Generating results...\n")
+    print("You want a trip to %s on %s arriving by %s\n\n" % (location, date, time))
+
+    return
+
+
