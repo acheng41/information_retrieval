@@ -8,4 +8,5 @@ DEBUG:visited:https://www.cs.jhu.edu/it-support/
 DEBUG:visited:https://www.cs.jhu.edu/search/
 DEBUG:visited:https://www.cs.jhu.edu/academic-programs/undergraduate-studies/undergraduate-academics/current-undergraduate-students/
 DEBUG:visited:https://www.cs.jhu.edu/academic-programs/graduate-studies/current-graduate-students/
-DEBUG:visited:https://www.cs.jhu.edu/about/
+DEBUG:extracted:('https://www.cs.jhu.edu/academic-programs/graduate-studies/current-graduate-students/', 'PRICE', '')
+DEBUG:visited:https://www.cs.jhu.edu

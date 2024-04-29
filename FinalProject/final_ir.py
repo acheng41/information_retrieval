@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from queue import Queue
 from urllib import parse, request
 import heapq
+import pandas as pd
 
 logging.basicConfig(level=logging.DEBUG, filename='output.log', filemode='w')
 visitlog = logging.getLogger('visited')
@@ -180,18 +181,28 @@ def extract_information(address, html):
 #key: URL,val = dictionary
 #dictionary contents: {mode: , departure: , arrival: , duration: , cost: , }
 #mode depends on which site we crawl
-def match_info(visited, extracted): 
-    retrieved_links = {}
-    for link in visited: 
-        retrieved_links[link] = create_linkdict(extracted,link)
-
-    return retrieved_links
 
 
-def create_linkdict(extracted, link): 
-    #'PRICE', 'DEPT|ARR', 
-    link_dict = {}
-    return link_dict 
+def create_linkdf(extracted, link): 
+    # Step 1: Extract unique links
+    unique_links = set(item[0] for item in extracted)
+
+    # Step 2: Collect data for each unique link
+    rows = []
+    for link in unique_links:
+        link_data = {'Link': link}
+        for item in extracted:
+            if item[0] == link:
+                if item[1] == 'PRICE':
+                    link_data['Price'] = item[2]
+                elif item[1] == 'DEPT|ARRIV':
+                    link_data['Dept|Arr'].append(item[2])
+        rows.append(link_data)
+
+    # Step 3: Create DataFrame
+    df = pd.DataFrame(rows)
+
+    return df 
 
 #TODO: group info with link
 
