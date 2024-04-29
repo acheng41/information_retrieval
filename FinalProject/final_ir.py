@@ -94,7 +94,7 @@ def crawl(root, wanted_content=[], within_domain=True):
     visited = []
     extracted = []
 
-    while not queue.empty() and len(visited) < 3:
+    while not queue.empty():
         url = queue.get()
         if url in visited: 
             continue #do not visit duplicates
@@ -155,15 +155,15 @@ def extract_information(address, html):
     # TODO: implement
     results = []
 
-    # #TODO:: Search for Price
-    # price_pattern =  r'\$\d+(\.\d+)?'
-    # for match in re.findall(price_pattern, str(html)):
-    #     results.append((address, 'PRICE', match))
+    #TODO:: Search for Price
+    price_pattern =  r'\$\d+(\.\d+)?'
+    for match in re.findall(price_pattern, str(html)):
+        results.append((address, 'PRICE', match))
    
-    #TODO: Search for Travel Time
-    time_pattern =  r'\d+h \d+m'
-    for match in re.findall(time_pattern, str(html)):
-        results.append((address, 'DURATION', match))
+    # #TODO: Search for Travel Time
+    # time_pattern =  r'\d+h \d+m'
+    # for match in re.findall(time_pattern, str(html)):
+    #     results.append((address, 'DURATION', match))
     
     #TODO: Search for Departure/ Arrival Time
     dept_arriv_pattern = r'^\d{2}:\d{2} (?:AM|PM)$'
@@ -175,12 +175,40 @@ def extract_information(address, html):
 
     return results
 
-#TODO: Helper
-#TODO: function to determine which time is arrival and which is departure
-#TODO: Create sorting function
+#TODO: Helper to match links with their info
+#return a dictionary of dictionaries
+#key: URL,val = dictionary
+#dictionary contents: {mode: , departure: , arrival: , duration: , cost: , }
+#mode depends on which site we crawl
+def match_info(visited, extracted): 
+    retrieved_links = {}
+    for link in visited: 
+        retrieved_links[link] = create_linkdict(extracted,link)
 
-#TODO: calculate the gas prices
-#TODO: impmplemetn function to add time to plane, car rental, etc. 
+    return retrieved_links
+
+
+def create_linkdict(extracted, link): 
+    #'PRICE', 'DEPT|ARR', 
+    link_dict = {}
+    return link_dict 
+
+#TODO: group info with link
+
+
+#TODO: function to determine which time is arrival and which is departure (TAYLOR)
+#TODO: calcuate duration from arrival and deparure times (TAYLOR)
+
+#TODO: create ranking functions  -- args (mode, dictionaries of info)
+# cost
+# travel time
+#TODO: implement function to add time to get to airport, tsa, etc. 
+# recommended -- our weighting
+
+
+
+#TODO: create wrapper that crawls all travel websites 
+#create dictionary from each website -- based on each website add mode
 
 
 
@@ -204,10 +232,12 @@ def main():
     writelines('nonlocal.txt', nonlocal_links)
 
     visited, extracted = crawl(site,['text/html'])
+
+    dictionary_links =  match_info(visited, extracted)
     print(extracted)
 
-    writelines('visited.txt', visited)
-    writelines('extracted.txt', extracted)
+    # writelines('visited.txt', visited)
+    # writelines('extracted.txt', extracted)
 
 
 def run_query(date, time, destination):
