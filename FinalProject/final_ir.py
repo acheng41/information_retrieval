@@ -190,7 +190,7 @@ def create_linkdf(extracted, link):
     # Step 2: Collect data for each unique link
     rows = []
     for link in unique_links:
-        link_data = {'Link': link}
+        link_data = {'Link': link, 'Dept|Arr': []}
         for item in extracted:
             if item[0] == link:
                 if item[1] == 'PRICE':
