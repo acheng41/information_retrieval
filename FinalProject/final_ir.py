@@ -182,6 +182,11 @@ def extract_information(address, html):
 #key: URL,val = dictionary
 #dictionary contents: {mode: , departure: , arrival: , duration: , cost: , }
 #mode depends on which site we crawl
+
+#TODO: function to determine which time is arrival and which is departure (TAYLOR)
+#TODO: calcuate duration from arrival and deparure times (TAYLOR)
+
+
 def convert_time(time_str):
     # Convert time string to datetime object
     return datetime.strptime(time_str, '%I:%M %p')
@@ -215,9 +220,6 @@ def create_linkdf(extracted, link):
     return df 
 
 #TODO: group info with link
-
-#DONE: function to determine which time is arrival and which is departure (TAYLOR)
-#DONE: calcuate duration from arrival and deparure times (TAYLOR)
 
 #TODO: create ranking functions  -- args (mode, dictionaries of info)
 # cost
