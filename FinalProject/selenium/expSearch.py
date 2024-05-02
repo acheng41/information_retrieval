@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 
-from aptsPageSearch import pagesearch
+from selenium.expPageSearch import pagesearch
 
 def aptsSearch(text):
     # Set up the WebDriver
