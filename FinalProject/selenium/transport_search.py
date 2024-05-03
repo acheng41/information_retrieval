@@ -5,8 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
 
-from selenium.WUSearch import CLSearch
-from selenium.expSearch import aptsSearch
+from selenium.WUSearch import WUSearch
+from selenium.expSearch import expSearch
 
 def get_data(text):
     craigslist = CLSearch(text)
