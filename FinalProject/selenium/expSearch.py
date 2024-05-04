@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-def expSearch():
+def expSearch(origin, destination, day):
     # Set up the WebDriver
     driver = webdriver.Chrome()
     # Navigate to the Expedia flights page
@@ -27,7 +27,7 @@ def expSearch():
     origin_input = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.XPATH, '//input[@placeholder="Leaving from"]'))
     )
-    origin_input.send_keys("BWI")
+    origin_input.send_keys(origin)
     origin_input.send_keys(Keys.RETURN)
 
     # Click on the "Going to" button
@@ -40,7 +40,7 @@ def expSearch():
     destination_input = WebDriverWait(driver, 10).until(
         EC.visibility_of_element_located((By.XPATH, '//input[@placeholder="Going to"]'))
     )
-    destination_input.send_keys("JFK")
+    destination_input.send_keys(destination)
     destination_input.send_keys(Keys.RETURN)
 
     # Click on the Date Picker button to open the Date Picker
@@ -50,11 +50,12 @@ def expSearch():
     # Wait for the calendar to load
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'uitk-calendar')))
 
+    day_path = '//button[@data-day="' + day + '"]'
     # Click on the specific day
-    date_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//button[@data-day="8"]'))
+    day_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, day_path))
     )
-    date_button.click()
+    day_button.click()
 
     # Click on the "Done" button
     done_button = WebDriverWait(driver, 10).until(
@@ -113,18 +114,19 @@ def expSearch():
             break
         # Check if there are more listings
 
-    # Print all flight listings
-    for listing_info in all_listing_info:
-        print(listing_info)
-        print("\n")
+    #Print all flight listings
+    # for listing_info in all_listing_info:
+    #     print(listing_info)
+    #     print("\n")
 
-    print("done - expedia.com")
+    # print("done - expedia.com")
 
     # Close the browser
-    time.sleep(60)
+    time.sleep(30)
     driver.quit()
 
     return all_listing_info
 
 if __name__ == '__main__':
-    expSearch()
+    listings = expSearch("BWI", "JFK", "14")
+    print(listings)
