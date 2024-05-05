@@ -41,6 +41,12 @@ if __name__ == '__main__':
         res_df = get_data(time, origin, destination, date, mode)
 
         #Define Sort Type
+        if rank == 'cheapest':
+            sort_type = '1'
+        elif rank == 'fastest':
+            sort_type = '2'
+        else:
+            sort_type = '3'
         get_sortedData(sort_type, res_df)
 
 
