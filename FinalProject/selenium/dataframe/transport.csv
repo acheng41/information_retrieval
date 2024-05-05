@@ -1,0 +1,8 @@
+Mode,Dept,Arr,Duration,Price,Company
+Train,2024-05-05 08:30:00,2024-05-05 11:30:00,3h 0m,$30.00,Amtrak Northeast Regional
+Train,2024-05-05 10:00:00,2024-05-05 13:30:00,3h 30m,$30.00,Amtrak Northeast Regional
+Train,2024-05-05 12:00:00,2024-05-05 15:45:00,3h 45m,$30.00,Amtrak Northeast Regional
+Train,2024-05-05 16:00:00,2024-05-05 18:56:00,2h 56m,$30.00,Amtrak Northeast Regional
+Plane,2024-05-05 06:05:00,2024-05-05 07:25:00,1h 20m,$216,Delta
+Plane,2024-05-05 17:17:00,2024-05-05 18:45:00,1h 28m,$349,Delta
+Plane,2024-05-05 14:04:00,2024-05-05 20:26:00,6h 22m,$272,Delta

@@ -95,6 +95,7 @@ def expSearch(origin, destination, day):
 
             # Store information in the dictionary
             # listing_info['Link'] = link
+            listing_info['Mode'] = "Plane"
             listing_info['Dept'] = dept
             listing_info['Arr'] = arr
             listing_info['Duration'] = duration
@@ -107,7 +108,9 @@ def expSearch(origin, destination, day):
         # Scroll to load more listings
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         # Wait for some time to let new listings load
-        time.sleep(3)
+        WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, '//li[@data-test-id="offer-listing"]'))
+        )
         more_listings = driver.find_elements(By.XPATH, '//li[@data-test-id="offer-listing"]')
 
         if len(more_listings) == len(listings):
@@ -115,11 +118,11 @@ def expSearch(origin, destination, day):
         # Check if there are more listings
 
     #Print all flight listings
-    # for listing_info in all_listing_info:
-    #     print(listing_info)
-    #     print("\n")
+    for listing_info in all_listing_info:
+        print(listing_info)
+        print("\n")
 
-    # print("done - expedia.com")
+    print("done - expedia.com")
 
     # Close the browser
     time.sleep(30)
