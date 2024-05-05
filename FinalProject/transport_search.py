@@ -30,15 +30,16 @@ def get_data(arrival_time, origin, destination, date, mode):
     if "all" in mode: 
         # expedia = expSearch(origin, destination, date)
         wanderu = WUSearch(origin, destination, date, "All")
-    elif "plane" in mode: 
+    else:  
+        if "plane" in mode: 
         # expedia = expSearch(origin, destination, date)
-        expedia = expedia_data_ex
-    elif "bus" in mode and "train" in mode: 
-        wanderu = WUSearch(origin, destination, date, "All")
-    elif "bus" in mode: 
-        wanderu = WUSearch(origin, destination, date, "Bus Only")
-    else: 
-        wanderu = WUSearch(origin, destination, date, "Train Only")
+            expedia = expedia_data_ex
+        if "bus" in mode and "train" in mode: 
+            wanderu = WUSearch(origin, destination, date, "All")
+        elif "bus" in mode: 
+            wanderu = WUSearch(origin, destination, date, "Bus Only")
+        else: 
+            wanderu = WUSearch(origin, destination, date, "Train Only")
 
     combined = wanderu + expedia
     print("Total Results:" + str(len(combined)))
@@ -82,16 +83,16 @@ def get_sortedData(sort_type, dataframe):
     df = pd.read_csv('dataframe/transport.csv')
     if sort_type == '1':
         df = df.sort_values('Price_sort', ascending=True)
-        print('Ascending Price')
-        print(df)
+        print('Cheapest\n')
+        print_results(df)
     elif sort_type == '2':
         df = df.sort_values('Duration_min', ascending=True)
-        print('Ascending Duration')
-        print(df)
+        print('Fastest\n')
+        print_results(df)
     elif sort_type == '3':
         df = df.sort_values('Custom_weighting', ascending=True)
-        print('Descending Custom Weights (0.2 Duration,0.8 Price)')
-        print(df)
+        print('Recommended\n')
+        print_results(df)
         
     df.to_csv('dataframe/transport.csv', index=False)
     return df
