@@ -49,14 +49,14 @@ def WUSearch(origin, destination, date, mode):
     origin_search.click()
     origin_search.clear()
     origin_search.send_keys(origin)
-    origin_search.send_keys(Keys.RETURN)
+    origin_search.send_keys(Keys.TAB)
     WebDriverWait(driver,5)
 
     # Find Search Bar and enter Arrival Location
     destination_search = driver.find_element(By.XPATH,'//input[@aria-label="arrival" and @data-id="destination"]')
     destination_search.click()
     destination_search.send_keys(destination)
-    destination_search.send_keys(Keys.RETURN)
+    destination_search.send_keys(Keys.TAB)
 
     # Uncheck Find Cheap Hotels
     ads_button = driver.find_element(By.CLASS_NAME, "ZDzGDfvBWCtG")
