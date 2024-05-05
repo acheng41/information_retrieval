@@ -5,24 +5,42 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
 
-# from selenium.WUSearch import WUSearch
-# from selenium.expSearch import expSearch
+from WUSearch import WUSearch
+from expSearch import expSearch
 
-def get_data(arrival_time, origin, destination, date):
-    wanderu = [{'Mode' : 'Train', 'Dept': '8:30 AM', 'Arr': '11:30 AM', 'Duration': '3h 0m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-               {'Mode' : 'Train', 'Dept': '10:00 AM', 'Arr': '1:30 PM', 'Duration': '3h 30m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-               {'Mode' : 'Train', 'Dept': '12:00 PM', 'Arr': '3:45 PM', 'Duration': '3h 45m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-               {'Mode' : 'Train', 'Dept': '4:00 PM', 'Arr': '6:56 PM', 'Duration': '2h 56m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-               {'Mode' : 'Train', 'Dept': '10:51 PM', 'Arr': '1:57 AM', 'Duration': '3h 6m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'}]
-    expedia = [{'Mode': 'Plane', 'Dept': '6:05am', 'Arr': '7:25am', 'Duration': '1h 20m', 'Price': '$216', 'Company': 'Delta'}, 
+def parse_mode(mode_string): 
+    return [word.strip() for word in mode_string.split(',')]
+
+def get_data(arrival_time, origin, destination, date, mode):
+    # wanderu = [{'Mode' : 'Train', 'Dept': '8:30 AM', 'Arr': '11:30 AM', 'Duration': '3h 0m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
+    #            {'Mode' : 'Train', 'Dept': '10:00 AM', 'Arr': '1:30 PM', 'Duration': '3h 30m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
+    #            {'Mode' : 'Train', 'Dept': '12:00 PM', 'Arr': '3:45 PM', 'Duration': '3h 45m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
+    #            {'Mode' : 'Train', 'Dept': '4:00 PM', 'Arr': '6:56 PM', 'Duration': '2h 56m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
+    #            {'Mode' : 'Train', 'Dept': '10:51 PM', 'Arr': '1:57 AM', 'Duration': '3h 6m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'}]
+    expedia_data_ex = [{'Mode': 'Plane', 'Dept': '6:05am', 'Arr': '7:25am', 'Duration': '1h 20m', 'Price': '$216', 'Company': 'Delta'}, 
                {'Mode': 'Plane', 'Dept': '5:17pm', 'Arr': '6:45pm', 'Duration': '1h 28m', 'Price': '$349', 'Company': 'Delta'}, 
                {'Mode': 'Plane', 'Dept': '6:50pm', 'Arr': '11:50pm', 'Duration': '5h 0m', 'Price': '$272', 'Company': 'Delta'}, 
                {'Mode': 'Plane', 'Dept': '2:04pm', 'Arr': '8:26pm', 'Duration': '6h 22m', 'Price': '$272', 'Company': 'Delta'}, 
                {'Mode': 'Plane', 'Dept': '4:43pm', 'Arr': '11:50pm', 'Duration': '7h 7m', 'Price': '$272', 'Company': 'Delta'}]
-    #wanderu = WUSearch(origin, destination, date)
-    #expedia = expSearch(origin, destination, date)
+    
+    mode = parse_mode(mode)
+    expedia = []
+    wanderu = []
+    if "all" in mode: 
+        # expedia = expSearch(origin, destination, date)
+        wanderu = WUSearch(origin, destination, date, "All")
+    elif "plane" in mode: 
+        # expedia = expSearch(origin, destination, date)
+        expedia = expedia_data_ex
+    elif "bus" in mode and "train" in mode: 
+        wanderu = WUSearch(origin, destination, date, "All")
+    elif "bus" in mode: 
+        wanderu = WUSearch(origin, destination, date, "Bus Only")
+    else: 
+        wanderu = WUSearch(origin, destination, date, "Train Only")
+
     combined = wanderu + expedia
-    # print(combined)
+    print("Total Results:" + str(len(combined)))
 
     df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
 
@@ -59,7 +77,7 @@ def get_data(arrival_time, origin, destination, date):
     print(df)
     return df
 
-def get_sortedData(sort_type):
+def get_sortedData(sort_type, dataframe):
     df = pd.read_csv('dataframe/transport.csv')
     if sort_type == '1':
         df = df.sort_values('Price_sort', ascending=True)
@@ -80,5 +98,5 @@ def get_sortedData(sort_type):
 # print(get_data('charles village').sort_values('price', ascending=False))
 
 if __name__ == '__main__':
-    get_data('9:00 PM', 'BWI', 'JFK', '05/14/2024')
-    get_sortedData('3')
+    get_data('9:00 PM', 'BWI', 'NYC', '05/14/2024', "All")
+    # get_sortedData('3')
