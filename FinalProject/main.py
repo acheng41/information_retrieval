@@ -1,6 +1,6 @@
 # Main loop execution
 import re
-from final_ir import run_query
+from transport_search import get_data, get_sortedData
 
 if __name__ == '__main__':
     print("Welcome to the Baltimore-NYC travel crawler!\n")
@@ -12,6 +12,11 @@ if __name__ == '__main__':
         while destination.upper() != "BWI" and destination.upper() != "NYC":
             destination = input("You must input either BWI or NYC as your destination:\n")
 
+        if destination == "BWI": 
+            origin = "NYC"
+        else: 
+            origin = "BWI"
+        
         date = input("What date would you like to depart? (MM/DD/YYYY):\n")
         pattern = r'^\d{2}/\d{2}/\d{4}$'
 
@@ -27,12 +32,18 @@ if __name__ == '__main__':
         while rank.lower() != "cheapest" and rank.lower() != "fastest" and rank.lower() != "recommended":
             rank = input("You must input either cheapest, fastest, or recommended.\n")
 
-        mode = input("Do you have a preferred mode of transportation? Please say plane, bus, train, car, or none.\n")
-        while mode.lower() != "plane" and mode.lower() != "bus" and mode.lower() != "train" and mode.lower() != "car" and mode.lower() != "none":
-            mode = input("You must input plane, bus, train, car, or none.\n")
+        mode = input("Do you have a preferred mode of transportation? Please enter all preferred methods separated by a comma (,): plane, bus, train, all.\n")
+        pattern = r'^\s*(plane|bus|train|all)(?:\s*,\s*(plane|bus|train|all))*\s*$'
+        while re.match(pattern, mode.lower()) is None: 
+            mode = input("You must input plane, bus, train, car, or all.\n")
 
 
-        run_query(date, time, destination)
+        res_df = get_data(time, origin, destination, date, mode)
+
+        #Define Sort Type
+        get_sortedData(sort_type, res_df)
+
+
 
         option = input("Press 1 if you want to do another search, or 0 to exit\n")
 
