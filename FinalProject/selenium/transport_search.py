@@ -22,9 +22,11 @@ def get_data(arrival_time, origin, destination, date):
     #wanderu = WUSearch(origin, destination, date)
     #expedia = expSearch(origin, destination, date)
     combined = wanderu + expedia
-    print(combined)
+    # print(combined)
 
     df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
+
+    df['Price_sort'] = df['Price'].str.replace('$', '').astype(float)
 
     # Convert arrival_time to datetime object
     arrival_time = pd.to_datetime(arrival_time)
@@ -35,6 +37,22 @@ def get_data(arrival_time, origin, destination, date):
     # Filter out rows where both Dept and Arr are before arrival_time
     df = df[(df['Dept'] <= arrival_time) & (df['Arr'] <= arrival_time)]
 
+    df['Duration_min'] = df['Duration'].apply(lambda x: int(x.split('h')[0]) * 60 + int(x.split(' ')[1][:-1]))
+    df.loc[df['Mode'] == 'Plane', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=1)
+    df.loc[df['Mode'] == 'Bus', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=0.5)
+    df.loc[df['Mode'] == 'Train', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=0.5)
+
+    #Create Custome Weighting
+    max_price = df['Price_sort'].max()
+    min_price = df['Price_sort'].min()
+    price_range = max_price - min_price
+    max_duration = df['Duration_min'].max()
+    min_duration = df['Duration_min'].min()
+    duration_range = max_duration - min_duration
+    weight_dur = 0.2
+    weight_price = 0.8
+    df['Custom_weighting'] = (df['Duration_min'] - min_duration)/duration_range * weight_dur + (df['Price_sort'] - min_price)/price_range * weight_price
+
     df.to_csv('dataframe/transport.csv', index=False)
     print('csv saved')
     print('Dataframe: ')
@@ -44,11 +62,17 @@ def get_data(arrival_time, origin, destination, date):
 def get_sortedData(sort_type):
     df = pd.read_csv('dataframe/transport.csv')
     if sort_type == '1':
-        df = df.sort_values('Price', ascending=True)
+        df = df.sort_values('Price_sort', ascending=True)
         print('Ascending Price')
+        print(df)
     elif sort_type == '2':
-        df = df.sort_values('Duration', ascending=True)
+        df = df.sort_values('Duration_min', ascending=True)
         print('Ascending Duration')
+        print(df)
+    elif sort_type == '3':
+        df = df.sort_values('Custom_weighting', ascending=True)
+        print('Descending Custom Weights (0.2 Duration,0.8 Price)')
+        print(df)
         
     df.to_csv('dataframe/transport.csv', index=False)
     return df
@@ -57,3 +81,4 @@ def get_sortedData(sort_type):
 
 if __name__ == '__main__':
     get_data('9:00 PM', 'BWI', 'JFK', '05/14/2024')
+    get_sortedData('3')
