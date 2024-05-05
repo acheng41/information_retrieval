@@ -98,7 +98,9 @@ def get_sortedData(sort_type, dataframe):
     return df
 
 def print_results(df):
-    print(df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']])
+    df['Dept'] = df['Dept'].dt.strftime('%I:%M %p')
+    df['Arr'] = df['Arr'].dt.strftime('%I:%M %p')
+    print(df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']].to_string(index=False))
 
 
 if __name__ == '__main__':
