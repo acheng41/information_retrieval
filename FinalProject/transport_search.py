@@ -95,8 +95,12 @@ def get_sortedData(sort_type, dataframe):
     df.to_csv('dataframe/transport.csv', index=False)
     return df
 
-# print(get_data('charles village').sort_values('price', ascending=False))
+def print_results(df):
+    print(df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']])
+
 
 if __name__ == '__main__':
-    get_data('9:00 PM', 'BWI', 'NYC', '05/14/2024', "All")
-    # get_sortedData('3')
+    df = pd.read_csv('dataframe/transport.csv')
+    get_data('9:00 PM', 'BWI', 'JFK', '05/14/2024')
+    get_sortedData('3')
+    print_results(df)
