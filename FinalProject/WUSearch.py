@@ -20,7 +20,9 @@ def reformat_inputs(origin, destination, date):
         destination = "Baltimore, MD"
     else: 
         destination = "New York, NY"
-        
+    
+    print("destination:" + destination)
+    print("origin:" + origin)
     #Reformat Date 
     # Parse the date string into a datetime object
     date_obj = datetime.strptime(date, "%m/%d/%Y")
@@ -48,6 +50,7 @@ def WUSearch(origin, destination, date, mode):
     origin_search.clear()
     origin_search.send_keys(origin)
     origin_search.send_keys(Keys.RETURN)
+    WebDriverWait(driver,5)
 
     # Find Search Bar and enter Arrival Location
     destination_search = driver.find_element(By.XPATH,'//input[@aria-label="arrival" and @data-id="destination"]')
