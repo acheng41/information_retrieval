@@ -11,6 +11,10 @@ def expSearch(origin, destination, date):
     day = str(input_day)
     print(day)
     
+    if destination == "NYC":
+        destination = "JFK"
+
+    print(destination)
     # Set up the WebDriver
     driver = webdriver.Chrome()
     # Navigate to the Expedia flights page
