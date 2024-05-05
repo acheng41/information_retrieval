@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -5,7 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
-def expSearch(origin, destination, day):
+def expSearch(origin, destination, date):
+    input_day = datetime.strptime(date, "%m/%d/%Y").day
+    day = str(input_day)
+    print(day)
+    
     # Set up the WebDriver
     driver = webdriver.Chrome()
     # Navigate to the Expedia flights page
@@ -98,7 +103,7 @@ def expSearch(origin, destination, day):
             listing_info['Mode'] = "Plane"
             listing_info['Dept'] = dept
             listing_info['Arr'] = arr
-            listing_info['Duration'] = duration
+            listing_info['Duration'] = duration.split('(')[0].strip()
             listing_info['Price'] = price
             listing_info['Company'] = airline_info
 
@@ -115,7 +120,6 @@ def expSearch(origin, destination, day):
 
         if len(more_listings) == len(listings):
             break
-        # Check if there are more listings
 
     #Print all flight listings
     for listing_info in all_listing_info:
@@ -131,5 +135,5 @@ def expSearch(origin, destination, day):
     return all_listing_info
 
 if __name__ == '__main__':
-    listings = expSearch("BWI", "JFK", "14")
+    listings = expSearch("BWI", "JFK", "05/14/2024")
     print(listings)
