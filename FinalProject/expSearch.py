@@ -77,6 +77,7 @@ def expSearch(origin, destination, date):
         EC.element_to_be_clickable((By.XPATH, '//button[@id="search_button"]'))
     )
     search_button.click()
+    time.sleep(10)
 
     # Wait for the flight listings to load
     WebDriverWait(driver, 60).until(
@@ -116,6 +117,7 @@ def expSearch(origin, destination, date):
 
         # Scroll to load more listings
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(10)
         # Wait for some time to let new listings load
         WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, '//li[@data-test-id="offer-listing"]'))
