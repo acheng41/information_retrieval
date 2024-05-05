@@ -47,7 +47,7 @@ def WUSearch(origin, destination, date, mode):
     # Find Search Bar and enter Departure Location
     origin_search = driver.find_element(By.XPATH,'//input[@aria-label="departure" and @data-id="origin"]')
     origin_search.click()
-    origin_search.clear()
+    #origin_search.clear()
     origin_search.send_keys(origin)
     origin_search.send_keys(Keys.RETURN)
     WebDriverWait(driver,5)

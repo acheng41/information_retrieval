@@ -98,13 +98,13 @@ def get_sortedData(sort_type, dataframe):
     return df
 
 def print_results(df):
-    df['Dept'] = df['Dept'].dt.strftime('%I:%M %p')
-    df['Arr'] = df['Arr'].dt.strftime('%I:%M %p')
+    df['Dept'] = pd.to_datetime(df['Dept']).dt.strftime('%I:%M %p')
+    df['Arr'] = pd.to_datetime(df['Arr']).dt.strftime('%I:%M %p')
     print(df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']].to_string(index=False))
 
 
 if __name__ == '__main__':
     df = pd.read_csv('dataframe/transport.csv')
-    get_data('9:00 PM', 'BWI', 'JFK', '05/14/2024')
-    get_sortedData('3')
-    print_results(df)
+    #get_data('9:00 PM', 'BWI', 'JFK', '05/14/2024', 'plane,train')
+    get_sortedData('3', df)
+    #print_results(df)
