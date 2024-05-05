@@ -1,4 +1,3 @@
-import datetime
 import logging
 import re
 import sys
@@ -183,13 +182,6 @@ def extract_information(address, html):
 #dictionary contents: {mode: , departure: , arrival: , duration: , cost: , }
 #mode depends on which site we crawl
 
-#TODO: function to determine which time is arrival and which is departure (TAYLOR)
-#TODO: calcuate duration from arrival and deparure times (TAYLOR)
-
-
-def convert_time(time_str):
-    # Convert time string to datetime object
-    return datetime.strptime(time_str, '%I:%M %p')
 
 def create_linkdf(extracted, link): 
     # Step 1: Extract unique links
@@ -204,14 +196,7 @@ def create_linkdf(extracted, link):
                 if item[1] == 'PRICE':
                     link_data['Price'] = item[2]
                 elif item[1] == 'DEPT|ARRIV':
-                    link_data['Dept|Arr'].append(convert_time(item[2]))
-        # sort based on the time that is already in the link's data
-        link_data['Dept|Arr'] = sorted(link_data['Dept|Arr'])
-
-        # subtracting and then converting to minutes
-        duration = (link_data['Dept|Arr'][1] - link_data['Dept|Arr'][0]).total_seconds() / 60
-        link_data['Duration'] = duration
-
+                    link_data['Dept|Arr'].append(item[2])
         rows.append(link_data)
 
     # Step 3: Create DataFrame
@@ -220,6 +205,10 @@ def create_linkdf(extracted, link):
     return df 
 
 #TODO: group info with link
+
+
+#TODO: function to determine which time is arrival and which is departure (TAYLOR)
+#TODO: calcuate duration from arrival and deparure times (TAYLOR)
 
 #TODO: create ranking functions  -- args (mode, dictionaries of info)
 # cost

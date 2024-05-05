@@ -99,7 +99,7 @@ def expSearch(origin, destination, day):
             listing_info['Arr'] = arr
             listing_info['Duration'] = duration
             listing_info['Price'] = price
-            listing_info['Airline'] = airline_info
+            listing_info['Company'] = airline_info
 
             # Add the dictionary to the list
             all_listing_info.append(listing_info)
