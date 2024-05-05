@@ -43,9 +43,12 @@ def WUSearch(origin, destination, date, mode):
     # Navigate to the wanderu.com website
     driver.get("https://www.wanderu.com")
     print("Driver Initialized")
-
+     
+    WebDriverWait(driver,10)
     # Find Search Bar and enter Departure Location
-    origin_search = driver.find_element(By.XPATH,'//input[@aria-label="departure" and @data-id="origin"]')
+    origin_search = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '//input[@aria-label="departure" and @data-id="origin"]'))
+        )
     origin_search.click()
     #origin_search.clear()
     origin_search.send_keys(origin)
@@ -55,11 +58,14 @@ def WUSearch(origin, destination, date, mode):
     # Find Search Bar and enter Arrival Location
     destination_search = driver.find_element(By.XPATH,'//input[@aria-label="arrival" and @data-id="destination"]')
     destination_search.click()
+    destination_search.click()
     destination_search.send_keys(destination)
     destination_search.send_keys(Keys.TAB)
 
     # Uncheck Find Cheap Hotels
-    ads_button = driver.find_element(By.CLASS_NAME, "ZDzGDfvBWCtG")
+    ads_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, "ZDzGDfvBWCtG"))
+        )
     ads_button.click()
     print("unchecked hotel finder")
 
@@ -209,5 +215,5 @@ def WUSearch(origin, destination, date, mode):
 
 
 if __name__ == '__main__':
-    listings = WUSearch("BWI", "JFK", "05/08/2024", "All")
+    listings = WUSearch("BWI", "NYC", "05/08/2024", "All")
     # print(listings)
