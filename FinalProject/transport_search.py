@@ -24,6 +24,7 @@ def get_data(arrival_time, origin, destination, date, mode):
                {'Mode': 'Plane', 'Dept': '4:43pm', 'Arr': '11:50pm', 'Duration': '7h 7m', 'Price': '$272', 'Company': 'Delta'}]
     
     mode = parse_mode(mode)
+    print("These are the inputted modes:" + str(mode))
     expedia = []
     wanderu = []
     if "all" in mode: 

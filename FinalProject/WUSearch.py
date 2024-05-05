@@ -7,7 +7,6 @@ from selenium.common.exceptions import StaleElementReferenceException, NoSuchEle
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 
-from WUPageSearch import pagesearch
 
 from datetime import datetime
 
