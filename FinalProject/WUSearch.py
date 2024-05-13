@@ -44,7 +44,7 @@ def WUSearch(origin, destination, date, mode):
     driver.get("https://www.wanderu.com")
     print("Driver Initialized")
      
-    WebDriverWait(driver,10)
+    WebDriverWait(driver,5)
     # Find Search Bar and enter Departure Location
     origin_search = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//input[@aria-label="departure" and @data-id="origin"]'))
@@ -53,7 +53,7 @@ def WUSearch(origin, destination, date, mode):
     #origin_search.clear()
     origin_search.send_keys(origin)
     origin_search.send_keys(Keys.TAB)
-    WebDriverWait(driver,5)
+    WebDriverWait(driver,2)
 
     # Find Search Bar and enter Arrival Location
     destination_search = driver.find_element(By.XPATH,'//input[@aria-label="arrival" and @data-id="destination"]')
@@ -199,7 +199,7 @@ def WUSearch(origin, destination, date, mode):
         buses.append(listing_info)
 
 
-
+    print("done - wanderu.com")
 
     driver.quit()
     if mode == "Train Only": 
@@ -212,8 +212,8 @@ def WUSearch(origin, destination, date, mode):
         print(len(trains + buses))
         return trains + buses
     
-
+    
 
 if __name__ == '__main__':
-    listings = WUSearch("BWI", "NYC", "05/08/2024", "All")
+    listings = WUSearch("BWI", "NYC", "05/14/2024", "All")
     # print(listings)

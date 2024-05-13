@@ -4,47 +4,45 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import pandas as pd
-
 from WUSearch import WUSearch
 from expSearch import expSearch
+
+import warnings
+
+# Suppress future warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+
 
 def parse_mode(mode_string): 
     return [word.strip() for word in mode_string.split(',')]
 
 def get_data(arrival_time, origin, destination, date, mode):
-    # wanderu = [{'Mode' : 'Train', 'Dept': '8:30 AM', 'Arr': '11:30 AM', 'Duration': '3h 0m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-    #            {'Mode' : 'Train', 'Dept': '10:00 AM', 'Arr': '1:30 PM', 'Duration': '3h 30m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-    #            {'Mode' : 'Train', 'Dept': '12:00 PM', 'Arr': '3:45 PM', 'Duration': '3h 45m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-    #            {'Mode' : 'Train', 'Dept': '4:00 PM', 'Arr': '6:56 PM', 'Duration': '2h 56m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'},
-    #            {'Mode' : 'Train', 'Dept': '10:51 PM', 'Arr': '1:57 AM', 'Duration': '3h 6m', 'Price': '$30.00', 'Company': 'Amtrak Northeast Regional'}]
-    expedia_data_ex = [{'Mode': 'Plane', 'Dept': '6:05am', 'Arr': '7:25am', 'Duration': '1h 20m', 'Price': '$216', 'Company': 'Delta'}, 
-               {'Mode': 'Plane', 'Dept': '5:17pm', 'Arr': '6:45pm', 'Duration': '1h 28m', 'Price': '$349', 'Company': 'Delta'}, 
-               {'Mode': 'Plane', 'Dept': '6:50pm', 'Arr': '11:50pm', 'Duration': '5h 0m', 'Price': '$272', 'Company': 'Delta'}, 
-               {'Mode': 'Plane', 'Dept': '2:04pm', 'Arr': '8:26pm', 'Duration': '6h 22m', 'Price': '$272', 'Company': 'Delta'}, 
-               {'Mode': 'Plane', 'Dept': '4:43pm', 'Arr': '11:50pm', 'Duration': '7h 7m', 'Price': '$272', 'Company': 'Delta'}]
-    
+   
     mode = parse_mode(mode)
     print("These are the inputted modes:" + str(mode))
     expedia = []
     wanderu = []
-    if "all" in mode: 
-        # expedia = expSearch(origin, destination, date)
-        wanderu = WUSearch(origin, destination, date, "All")
-    else:  
-        if "plane" in mode: 
-        # expedia = expSearch(origin, destination, date)
-            expedia = expedia_data_ex
-        if "bus" in mode and "train" in mode: 
-            wanderu = WUSearch(origin, destination, date, "All")
-        elif "bus" in mode: 
-            wanderu = WUSearch(origin, destination, date, "Bus Only")
-        else: 
-            wanderu = WUSearch(origin, destination, date, "Train Only")
+    try: 
+        if "all" in mode: 
+                wanderu = WUSearch(origin, destination, date, "All")
+                expedia = expSearch(origin, destination, date)
+        else:  
+            if "plane" in mode: 
+                expedia = expSearch(origin, destination, date)
+            if "bus" in mode and "train" in mode: 
+                wanderu = WUSearch(origin, destination, date, "All")
+            elif "bus" in mode: 
+                wanderu = WUSearch(origin, destination, date, "Bus Only")
+            else: 
+                wanderu = WUSearch(origin, destination, date, "Train Only")
 
-    combined = wanderu + expedia
-    print("Total Results:" + str(len(combined)))
+        combined = wanderu + expedia
+        print("Total Results:" + str(len(combined)))
 
-    df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
+        df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
+    except: 
+        df = pd.read_csv('dataframe/transport516.csv')
 
     df['Price_sort'] = df['Price'].str.replace('$', '').astype(float)
 
@@ -84,23 +82,28 @@ def get_sortedData(sort_type, dataframe):
     if sort_type == '1':
         df = df.sort_values('Price_sort', ascending=True)
         print('Cheapest\n')
-        print_results(df)
+        print_results(df.head(10))
     elif sort_type == '2':
         df = df.sort_values('Duration_min', ascending=True)
         print('Fastest\n')
-        print_results(df)
+        print_results(df.head(10))
     elif sort_type == '3':
         df = df.sort_values('Custom_weighting', ascending=True)
         print('Recommended\n')
-        print_results(df)
+        print_results(df.head(10))
         
     df.to_csv('dataframe/transport.csv', index=False)
     return df
 
 def print_results(df):
-    df['Dept'] = pd.to_datetime(df['Dept']).dt.strftime('%I:%M %p')
-    df['Arr'] = pd.to_datetime(df['Arr']).dt.strftime('%I:%M %p')
-    print(df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']].to_string(index=False))
+    print_df = pd.DataFrame()
+    print_df['Dept'] = pd.to_datetime(df['Dept']).dt.strftime('%I:%M %p')
+    print_df['Arr'] = pd.to_datetime(df['Arr']).dt.strftime('%I:%M %p')
+    print_df['Mode'] = df['Mode']
+    print_df['Price'] = df['Price']
+    print_df['Duration'] = df['Duration']
+    print_df['Company'] = df['Company']
+    print(print_df[['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company']].to_string(index=False))
 
 
 if __name__ == '__main__':

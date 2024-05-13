@@ -5,11 +5,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
+
 
 def expSearch(origin, destination, date):
     input_day = datetime.strptime(date, "%m/%d/%Y").day
     day = str(input_day)
     print(day)
+
+    date_object = datetime.strptime(date, "%m/%d/%Y")
+
+    # Format the datetime object as "Month Year"
+    formatted_date = date_object.strftime("%B %Y")
+    print(formatted_date)
     
     if destination == "NYC":
         destination = "JFK"
@@ -58,9 +66,18 @@ def expSearch(origin, destination, date):
 
     # Wait for the calendar to load
     WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CLASS_NAME, 'uitk-calendar')))
+    
+    #Select Month
+    h2_element = driver.find_elements(By.CLASS_NAME,"uitk-date-picker-month-name")
 
-    day_path = '//button[@data-day="' + day + '"]'
+    while h2_element[0].text != formatted_date:
+        next_button = driver.find_elements(By.XPATH, "//button[@data-stid='date-picker-paging']")[1]
+        next_button.click()
+        h2_element = driver.find_elements(By.CLASS_NAME,"uitk-date-picker-month-name")
+        
+
     # Click on the specific day
+    day_path = '//button[@data-day="' + day + '"]'
     day_button = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, day_path))
     )
@@ -83,6 +100,24 @@ def expSearch(origin, destination, date):
     WebDriverWait(driver, 60).until(
         EC.visibility_of_element_located((By.XPATH, '//li[@data-test-id="offer-listing"]'))
     )
+
+    #Load all Listings
+    while True:
+        try:
+            # Wait for the button to be clickable
+            button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//button[@name='showMoreButton']"))
+            )
+            # Click the button
+            button.click()
+            
+            # Sleep for a short while to allow the page to load after clicking
+            time.sleep(2)  # Adjust the sleep time as needed
+            
+        except TimeoutException:
+            # If the button is not found or not clickable, break out of the loop
+            break
+
 
     all_listing_info = []
 
@@ -128,10 +163,11 @@ def expSearch(origin, destination, date):
             break
 
     #Print all flight listings
-    for listing_info in all_listing_info:
-        print(listing_info)
-        print("\n")
+    # for listing_info in all_listing_info:
+    #     print(listing_info)
+    #     print("\n")
 
+    # print(len(all_listing_info))
     print("done - expedia.com")
 
     # Close the browser
@@ -141,5 +177,5 @@ def expSearch(origin, destination, date):
     return all_listing_info
 
 if __name__ == '__main__':
-    listings = expSearch("BWI", "JFK", "05/14/2024")
+    listings = expSearch("BWI", "JFK", "07/10/2024")
     print(listings)
