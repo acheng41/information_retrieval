@@ -47,10 +47,10 @@ if __name__ == '__main__':
             sort_type = '2'
         else:
             sort_type = '3'
-        get_sortedData(sort_type, res_df)
+        get_sortedData(sort_type, res_df, time)
 
 
-
+        print(" ")
         option = input("Press 1 if you want to do another search, or 0 to exit\n")
 
         while int(option) != 1 and int(option) != 0:

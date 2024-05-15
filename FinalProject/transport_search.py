@@ -7,9 +7,11 @@ import pandas as pd
 from WUSearch import WUSearch
 from expSearch import expSearch
 
+from datetime import timedelta
+
 import warnings
 
-# Suppress future warnings
+# # Suppress future warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
@@ -17,10 +19,29 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 def parse_mode(mode_string): 
     return [word.strip() for word in mode_string.split(',')]
 
+def round_5(number): 
+    return round(number / 5) * 5
+
 def get_data(arrival_time, origin, destination, date, mode):
    
     mode = parse_mode(mode)
+    print("\n")
     print("These are the inputted modes:" + str(mode))
+    print(" ")
+
+    if origin == "BWI": 
+        origin_print = "Baltimore, MD"
+    else: 
+        origin_print = "New York, NY"
+        
+    if destination == "BWI": 
+        destination_print = "Baltimore, MD"
+    else: 
+        destination_print = "New York, NY"
+    
+    print("destination:" + destination_print)
+    print("origin:" + origin_print)
+
     expedia = []
     wanderu = []
     try: 
@@ -38,15 +59,18 @@ def get_data(arrival_time, origin, destination, date, mode):
                 wanderu = WUSearch(origin, destination, date, "Train Only")
 
         combined = wanderu + expedia
-        print("Total Results:" + str(len(combined)))
+        print("\n Total Results:" + str(len(combined)))
 
         df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
     except: 
+        print("Unable to Complete Search")
+        print("To Demonstrate Ranking, Pre-Saved Results from 5/16/2024 will be used")
         df = pd.read_csv('dataframe/transport516.csv')
 
     df['Price_sort'] = df['Price'].str.replace('$', '').astype(float)
 
     # Convert arrival_time to datetime object
+    arrival_string = arrival_time
     arrival_time = pd.to_datetime(arrival_time)
     
     # Filter out rows with 'Arr' after arrival_time
@@ -54,6 +78,8 @@ def get_data(arrival_time, origin, destination, date, mode):
     df['Dept'] = pd.to_datetime(df['Dept'])
     # Filter out rows where both Dept and Arr are before arrival_time
     df = df[(df['Dept'] <= arrival_time) & (df['Arr'] <= arrival_time)]
+
+    print("Number of Trips Arriving Before " + arrival_string + ": " + str(len(df)))
 
     df['Duration_min'] = df['Duration'].apply(lambda x: int(x.split('h')[0]) * 60 + int(x.split(' ')[1][:-1]))
     df.loc[df['Mode'] == 'Plane', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=1)
@@ -69,7 +95,7 @@ def get_data(arrival_time, origin, destination, date, mode):
     duration_range = max_duration - min_duration
     weight_dur = 0.2
     weight_price = 0.8
-    df['Custom_weighting'] = (df['Duration_min'] - min_duration)/duration_range * weight_dur + (df['Price_sort'] - min_price)/price_range * weight_price
+    df['Custom_weighting'] = (round_5(df['Duration_min']) - min_duration)/duration_range * weight_dur + (round_5(df['Price_sort']) - min_price)/price_range * weight_price
 
     df.to_csv('dataframe/transport.csv', index=False)
     print('csv saved')
@@ -77,8 +103,9 @@ def get_data(arrival_time, origin, destination, date, mode):
     print(df)
     return df
 
-def get_sortedData(sort_type, dataframe):
+def get_sortedData(sort_type, dataframe, arrival_time):
     df = pd.read_csv('dataframe/transport.csv')
+    print(" ")
     if sort_type == '1':
         df = df.sort_values('Price_sort', ascending=True)
         print('Cheapest\n')
@@ -88,7 +115,7 @@ def get_sortedData(sort_type, dataframe):
         print('Fastest\n')
         print_results(df.head(10))
     elif sort_type == '3':
-        df = df.sort_values('Custom_weighting', ascending=True)
+        df = df.sort_values(by =['Custom_weighting', 'Arr'], ascending=[True, False])
         print('Recommended\n')
         print_results(df.head(10))
         

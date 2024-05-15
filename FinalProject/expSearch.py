@@ -11,18 +11,18 @@ from selenium.common.exceptions import TimeoutException
 def expSearch(origin, destination, date):
     input_day = datetime.strptime(date, "%m/%d/%Y").day
     day = str(input_day)
-    print(day)
+    # print(day)
 
     date_object = datetime.strptime(date, "%m/%d/%Y")
 
     # Format the datetime object as "Month Year"
     formatted_date = date_object.strftime("%B %Y")
-    print(formatted_date)
+    # print(formatted_date)
     
     if destination == "NYC":
         destination = "JFK"
-
-    print(destination)
+    # print(destination)
+    
     # Set up the WebDriver
     driver = webdriver.Chrome()
     # Navigate to the Expedia flights page
