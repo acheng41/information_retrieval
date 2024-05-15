@@ -45,27 +45,31 @@ def get_data(arrival_time, origin, destination, date, mode):
     expedia = []
     wanderu = []
     try: 
-        if "all" in mode: 
-                wanderu = WUSearch(origin, destination, date, "All")
-                expedia = expSearch(origin, destination, date)
-        else:  
-            if "plane" in mode: 
-                expedia = expSearch(origin, destination, date)
-            if "bus" in mode and "train" in mode: 
-                wanderu = WUSearch(origin, destination, date, "All")
-            elif "bus" in mode: 
-                wanderu = WUSearch(origin, destination, date, "Bus Only")
-            else: 
-                wanderu = WUSearch(origin, destination, date, "Train Only")
+        # if "all" in mode: 
+        #         wanderu = WUSearch(origin, destination, date, "All")
+        #         expedia = expSearch(origin, destination, date)
+        # else:  
+        #     if "plane" in mode: 
+        #         expedia = expSearch(origin, destination, date)
+        #     if "bus" in mode and "train" in mode: 
+        #         wanderu = WUSearch(origin, destination, date, "All")
+        #     elif "bus" in mode: 
+        #         wanderu = WUSearch(origin, destination, date, "Bus Only")
+        #     else: 
+        #         wanderu = WUSearch(origin, destination, date, "Train Only")
 
-        combined = wanderu + expedia
-        print("\n Total Results:" + str(len(combined)))
+        # combined = wanderu + expedia
+        print(" ")
+        print("Total Results:" + str(len(combined)))
 
         df = pd.DataFrame(combined, columns=['Mode', 'Dept', 'Arr', 'Duration', 'Price', 'Company'])
     except: 
+        print(" ")
         print("Unable to Complete Search")
-        print("To Demonstrate Ranking, Pre-Saved Results from 5/16/2024 will be used")
+        print("To Demonstrate Ranking, Pre-Saved Results for 5/16/2024 will be used")
         df = pd.read_csv('dataframe/transport516.csv')
+        df['Dept'] = pd.to_datetime(df['Dept']).dt.strftime('%I:%M %p')
+        df['Arr'] = pd.to_datetime(df['Arr']).dt.strftime('%I:%M %p')
 
     df['Price_sort'] = df['Price'].str.replace('$', '').astype(float)
 
@@ -80,6 +84,12 @@ def get_data(arrival_time, origin, destination, date, mode):
     df = df[(df['Dept'] <= arrival_time) & (df['Arr'] <= arrival_time)]
 
     print("Number of Trips Arriving Before " + arrival_string + ": " + str(len(df)))
+
+    if len(df) == 0: 
+        print(" ")
+        print("There were no trips arriving before " + arrival_string )
+        print("Please search for an earlier departure time")
+        
 
     df['Duration_min'] = df['Duration'].apply(lambda x: int(x.split('h')[0]) * 60 + int(x.split(' ')[1][:-1]))
     df.loc[df['Mode'] == 'Plane', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=1)
