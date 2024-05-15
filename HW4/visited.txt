@@ -1,1 +1,2 @@
-http://www.cs.jhu.edu
+http://www.cs.jhu.edu/~yarowsky/cs466.html
+https://www.cs.jhu.edu/~yarowsky/cs466slides/

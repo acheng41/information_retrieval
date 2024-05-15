@@ -83,6 +83,7 @@ def get_nonlocal_links(url):
 
 
 def crawl(root, wanted_content=[], within_domain=True):
+    print("in crawl")
     '''Crawl the url specified by `root`.
     `wanted_content` is a list of content types to crawl
     `within_domain` specifies whether the crawler should limit itself to the domain of `root`
@@ -106,12 +107,13 @@ def crawl(root, wanted_content=[], within_domain=True):
             visitlog.debug(url)
 
             for ex in extract_information(url, html):
+                print(ex)
                 extracted.append(ex)
                 extractlog.debug(ex)
             
             # for link, title in parse_links(url, html):  #the regular crawler          
             for link, title in parse_links_sorted(url, html): #custom link relevance sorting
-                print(link)
+                # print(link)
                 req_link = request.urlopen(link)
                 content_type = req_link.headers['Content-Type']
      
@@ -127,7 +129,7 @@ def crawl(root, wanted_content=[], within_domain=True):
                 else:
                     queue.put(link)
 
-                print(queue.__sizeof__())
+                # print(queue.__sizeof__())
 
         except Exception as e:
             print(e, url)
@@ -196,6 +198,7 @@ def main():
 
     writelines('visited.txt', visited)
     writelines('extracted.txt', extracted)
+
 
 
 if __name__ == '__main__':

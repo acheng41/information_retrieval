@@ -1,2 +1,0 @@
-('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')
-('http://www.cs.jhu.edu', 'EMAIL', 'contactus@cs.jhu.edu')
