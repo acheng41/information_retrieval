@@ -1,5 +1,6 @@
 # INFORMATION RETRIEVAL FINAL PROJECT 
 EN.601.466, Section 1
+
 Taylor Rohovit (trohovi1@jh.edu), Andrea Cheng (acheng41@jh.edu) 
 
 ## Summary of project focus:
