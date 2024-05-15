@@ -45,20 +45,20 @@ def get_data(arrival_time, origin, destination, date, mode):
     expedia = []
     wanderu = []
     try: 
-        # if "all" in mode: 
-        #         wanderu = WUSearch(origin, destination, date, "All")
-        #         expedia = expSearch(origin, destination, date)
-        # else:  
-        #     if "plane" in mode: 
-        #         expedia = expSearch(origin, destination, date)
-        #     if "bus" in mode and "train" in mode: 
-        #         wanderu = WUSearch(origin, destination, date, "All")
-        #     elif "bus" in mode: 
-        #         wanderu = WUSearch(origin, destination, date, "Bus Only")
-        #     else: 
-        #         wanderu = WUSearch(origin, destination, date, "Train Only")
+        if "all" in mode: 
+                wanderu = WUSearch(origin, destination, date, "All")
+                expedia = expSearch(origin, destination, date)
+        else:  
+            if "plane" in mode: 
+                expedia = expSearch(origin, destination, date)
+            if "bus" in mode and "train" in mode: 
+                wanderu = WUSearch(origin, destination, date, "All")
+            elif "bus" in mode: 
+                wanderu = WUSearch(origin, destination, date, "Bus Only")
+            else: 
+                wanderu = WUSearch(origin, destination, date, "Train Only")
 
-        # combined = wanderu + expedia
+        combined = wanderu + expedia
         print(" ")
         print("Total Results:" + str(len(combined)))
 
