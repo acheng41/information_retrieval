@@ -10,7 +10,7 @@ such as origin, destination, date, arrival time, and their preferences (cheapest
 
 ## Installation (using Visual Studio Code):
 In Git Bash:
-git clone https://github.com/acheng41/information_retrieval.git
+git clone https://github.com/acheng41/information_retrieval/tree/main/FinalProject 
 
 Then:
 1) To create a new conda environment:
@@ -25,10 +25,6 @@ pip install -r requirements.txt
 
 
 ## Usage:
-In command line, navigate to FinalProject directory: 
-```
-cd FinalProject
-```
 To run the commandline interface:
 ```
 python main.py
