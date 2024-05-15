@@ -37,8 +37,19 @@ if __name__ == '__main__':
         while re.match(pattern, mode.lower()) is None: 
             mode = input("You must input plane, bus, train, car, or all.\n")
 
+        filter = input("Do you want this program to consider travel time after arrival at the station/airport? Enter yes or no.\n")
+        pattern = r'^(yes|no)$'
+        while re.match(pattern, filter.lower()) is None: 
+            filter = input("You must input yes or no.\n")
+        
+        raw = input("Would you like to see the raw dataframe? Enter yes or no (A csv of raw output will be created regardless).\n")
+        pattern = r'^(yes|no)$'
+        while re.match(pattern, raw.lower()) is None: 
+            raw = input("You must input yes or no.\n")
 
-        res_df = get_data(time, origin, destination, date, mode)
+
+
+        res_df = get_data(time, origin, destination, date, mode, filter,raw)
 
         #Define Sort Type
         if rank == 'cheapest':

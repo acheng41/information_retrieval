@@ -22,7 +22,7 @@ def parse_mode(mode_string):
 def round_5(number): 
     return round(number / 5) * 5
 
-def get_data(arrival_time, origin, destination, date, mode):
+def get_data(arrival_time, origin, destination, date, mode, filter, raw):
    
     mode = parse_mode(mode)
     print("\n")
@@ -96,6 +96,9 @@ def get_data(arrival_time, origin, destination, date, mode):
     df.loc[df['Mode'] == 'Bus', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=0.5)
     df.loc[df['Mode'] == 'Train', 'added_arrival'] = df['Arr'] + pd.Timedelta(hours=0.5)
 
+    if filter == 'yes':
+        df = df[(df['added_arrival'] <= arrival_time)]
+
     #Create Custome Weighting
     max_price = df['Price_sort'].max()
     min_price = df['Price_sort'].min()
@@ -109,8 +112,10 @@ def get_data(arrival_time, origin, destination, date, mode):
 
     df.to_csv('dataframe/transport.csv', index=False)
     print('csv saved')
-    print('Dataframe: ')
-    print(df)
+
+    if raw == 'yes':
+        print('Raw Dataframe: ')
+        print(df)
     return df
 
 def get_sortedData(sort_type, dataframe, arrival_time):

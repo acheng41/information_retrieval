@@ -11,18 +11,15 @@ from selenium.common.exceptions import TimeoutException
 def expSearch(origin, destination, date):
     input_day = datetime.strptime(date, "%m/%d/%Y").day
     day = str(input_day)
-    # print(day)
 
     date_object = datetime.strptime(date, "%m/%d/%Y")
 
     # Format the datetime object as "Month Year"
     formatted_date = date_object.strftime("%B %Y")
-    # print(formatted_date)
     
     if destination == "NYC":
         destination = "JFK"
-    # print(destination)
-    
+
     # Set up the WebDriver
     driver = webdriver.Chrome()
     # Navigate to the Expedia flights page
@@ -135,11 +132,8 @@ def expSearch(origin, destination, date):
             airline_info = listing.find_element(By.CSS_SELECTOR, '[data-test-id="flight-operated"]').text.split(' • ')[0]
             dept, arr = listing.find_element(By.CSS_SELECTOR, '[data-test-id="departure-time"]').text.split(' - ')    
 
-            # link_button = listing.find_element(By.XPATH, './/button[@data-test-id="select-link"]')
-            # link = link_button.get_attribute("onclick").split("window.open('")[1].split("')")[0]     
 
             # Store information in the dictionary
-            # listing_info['Link'] = link
             listing_info['Mode'] = "Plane"
             listing_info['Dept'] = dept
             listing_info['Arr'] = arr
@@ -171,7 +165,6 @@ def expSearch(origin, destination, date):
     print("done - expedia.com")
 
     # Close the browser
-    time.sleep(30)
     driver.quit()
 
     return all_listing_info

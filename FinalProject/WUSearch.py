@@ -37,14 +37,12 @@ def reformat_inputs(origin, destination, date):
 
 def WUSearch(origin, destination, date, mode):
     origin, destination, formatted_date_str, day_integer = reformat_inputs(origin, destination, date)
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')
+
     driver = webdriver.Chrome()
 
     
     # Navigate to the wanderu.com website
     driver.get("https://www.wanderu.com")
-    # print("Driver Initialized")
     
     while True: 
         WebDriverWait(driver,5)
@@ -70,11 +68,9 @@ def WUSearch(origin, destination, date, mode):
         destination_search.click()
         dest = driver.find_elements(By.XPATH, '//span[@class="NWdNR0M0ACBh"]')[0]
         dest = dest.text
-        # print(dest)
         origin_search.click()
         orig = driver.find_elements(By.XPATH,'//span[@class="NWdNR0M0ACBh"]')[0]
         orig = orig.text
-        # print(orig)
 
         ActionChains(driver).send_keys(Keys.ESCAPE).perform()
         if dest != orig: 
@@ -85,14 +81,11 @@ def WUSearch(origin, destination, date, mode):
             EC.element_to_be_clickable((By.CLASS_NAME, "ZDzGDfvBWCtG"))
         )
     ads_button.click()
-    # print("unchecked hotel finder")
 
     # Set Calendar
     date_search = driver.find_element(By.CLASS_NAME, "LtV56aME5ABC")
     date_search.click()
-    # WebDriverWait(driver, 3).until(EC.visibilityOfElementLocated(By.CLASS_NAME, "LtV56aME5ABC"))
     month_year = driver.find_element(By.XPATH, '//span[@data-id="header-date"]').text
-    # prev_button = driver.find_element(By.XPATH, '//button[@aria-label="previous-month"]')
     next_button = driver.find_element(By.XPATH, '//button[@aria-label="next-month"]')
     cal_target  = datetime.strptime(formatted_date_str, "%B %Y")
     while(month_year != formatted_date_str):
@@ -167,24 +160,17 @@ def WUSearch(origin, destination, date, mode):
 
     WebDriverWait(driver, 10)
     time.sleep(10)
-    # driver.back()
     driver.refresh()
 
     time.sleep(10)
     offset = 29
-    # while True: 
-
     # #Get Bus Listing
     hover_bus = driver.find_element(By.XPATH,'//span[@class="_0-gBaFd8Iwkq" and text()="Buses"]')
     # Create an ActionChains object
     action_bus = ActionChains(driver)
     # Hover over the element
     action_bus.move_to_element(hover_bus).move_by_offset(offset, 0).click().perform();
-    # unchecked = driver.find_elements(By.XPATH, '//span[@class = "ZDzGDfvBWCtG ou6bPFOaBbby"]' )
-        # offset +=1
-        # if((len(unchecked))== 15): 
-        #     break
-
+   
     #Press Button for all Listings
     num_listings = driver.find_elements(By.CLASS_NAME, "_8F5FhShfDaF3")
     current = int(num_listings[0].text)
@@ -232,13 +218,10 @@ def WUSearch(origin, destination, date, mode):
 
     driver.quit()
     if mode == "Train Only": 
-        # print(len(trains))
         return trains
     elif mode == "Bus Only": 
-        # print(len(buses))
         return buses
     else: 
-        # print(len(trains + buses))
         return trains + buses
     
     
