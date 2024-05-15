@@ -1,0 +1,27 @@
+Mode,Dept,Arr,Duration,Price,Company,Price_sort,Duration_min,added_arrival,Custom_weighting,Program_Ranking,CC_ Ranking,AC_Ranking,JK_Ranking,,,% in top 10,MEA
+Train,4:20 AM,6:55 AM,2h 35m,$52.00 ,Amtrak Northeast Regional,52,155,7:25 AM,0.1325993555316863,1,1,,,,Evaluator 1,0.9,0.7
+Train,8:05 AM,10:50 AM,2h 45m,$52.00 ,Amtrak Northeast Regional,52,165,11:20 AM,0.1428034371643394,2,3,6,,,Evaluator 2,0.8,5.1
+Train,7:49 AM,10:33 AM,2h 44m,$52.00 ,Amtrak,52,164,11:03 AM,0.1428034371643394,3,2,7,,,Evaluator 3,0.3,7.7
+Train,7:17 AM,10:02 AM,2h 45m,$52.00 ,Amtrak Carolinian,52,165,10:32 AM,0.1428034371643394,4,4,8,,,Average,0.67,4.5
+Train,4:20 AM,7:10 AM,2h 50m,$52.00 ,Amtrak Northeast Regional,52,170,7:40 AM,0.1479054779806659,5,5,10,,,,,
+Train,7:49 AM,10:46 AM,2h 57m,$52.00 ,Amtrak,52,177,11:16 AM,0.1530075187969924,6,6,2,,,,,
+Train,8:05 AM,11:03 AM,2h 58m,$52.00 ,Amtrak Northeast Regional,52,178,11:33 AM,0.15810956,7,7,1,8,,,,
+Train,12:20 AM,5:36 AM,5h 16m,$11.00 ,Amtrak Northeast Regional,11,316,6:06 AM,0.1755639097744361,8,,,,,,,
+Train,6:02 AM,8:40 AM,2h 38m,$72.00 ,Amtrak Palmetto,72,158,9:10 AM,0.1978517722878625,9,8,3,1,,,,
+Train,8:49 AM,11:34 AM,2h 45m,$72.00 ,Amtrak,72,165,12:04 PM,0.202953813,10,9,4,5,,,,
+Train,9:05 AM,11:57 AM,2h 52m,$72.00 ,Amtrak Northeast Regional,72,172,12:27 PM,0.2080558539205156,,10,,2,,,,
+Train,6:02 AM,8:54 AM,2h 52m,$72.00 ,Amtrak Palmetto,72,172,9:24 AM,0.2080558539205156,,,,,,,,
+Train,8:49 AM,11:47 AM,2h 58m,$72.00 ,Amtrak,72,178,12:17 PM,0.2182599355531686,,,5,3,,,,
+Train,12:20 AM,5:51 AM,5h 31m,$22.00 ,Amtrak Northeast Regional,22,331,6:21 AM,0.2209452201933404,,,,,,,,
+Train,9:05 AM,12:11 PM,3h 6m,$72.00 ,Amtrak Northeast Regional,72,186,12:41 PM,0.2233619763694951,,,9,4,,,,
+Train,9:00 AM,11:20 AM,2h 20m,$104.00 ,Amtrak Acela,104,140,11:50 AM,0.2827067669172932,,,,7,,,,
+Train,8:00 AM,10:24 AM,2h 24m,$104.00 ,Amtrak Acela,104,144,10:54 AM,0.2878088077336198,,,,,,,,
+Train,9:00 AM,11:33 AM,2h 33m,$105.00 ,Amtrak Acela,105,153,12:03 PM,0.2980128893662728,,,,6,,,,
+Train,8:00 AM,10:37 AM,2h 37m,$105.00 ,Amtrak Acela,105,157,11:07 AM,0.2980128893662728,,,,10,,,,
+Train,10:03 AM,12:26 PM,2h 23m,$134.00 ,Amtrak Acela,134,143,12:56 PM,0.3780343716433942,,,,9,,,,
+Plane,5:03 AM,9:00 AM,3h 57m,$158 ,American Airlines,158,237,10:00 AM,0.5450590762620837,,,,,,,,
+Plane,5:03 AM,9:00 AM,3h 57m,$158 ,American Airlines,158,237,10:00 AM,0.5450590762620837,,,,,,,,
+Plane,6:00 AM,11:36 AM,5h 36m,$228 ,Delta,228,336,12:36 PM,0.8576262083780882,,,,,,,,
+Plane,6:00 AM,11:36 AM,5h 36m,$228 ,Delta,228,336,12:36 PM,0.8576262083780882,,,,,,,,
+Plane,6:00 AM,10:53 AM,4h 53m,$277 ,Delta,277,293,11:53 AM,0.9521482277121376,,,,,,,,
+Plane,6:00 AM,10:53 AM,4h 53m,$277 ,Delta,277,293,11:53 AM,0.9521482277121376,,,,,,,,
